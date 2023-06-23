@@ -1,0 +1,25 @@
+---
+title: "search"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{search}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mgpStreamingSDK)
+```
+```{r}
+#instantiate the interface
+#interface = mgpStreamingSDK::Interface$new()
+#interface$search(bbox = "miny,minx,maxy,maxx")
+```
+
