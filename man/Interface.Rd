@@ -10,7 +10,6 @@ Interface
 }
 \details{
 Interface class for interacting with WMS, WFS, and WMTS Streaming classes.
-
 This class provides a unified interface to access the WMS, WFS, and WMTS Streaming classes.
 
 The `search` function performs a search for features within the specified bounding box and/or with a specified filter.

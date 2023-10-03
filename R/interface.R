@@ -1,8 +1,8 @@
 #' Interface class for interacting with WMS, WFS, and WMTS Streaming classes.
-#'
+#
 #' This class provides a unified interface to access the WMS, WFS, and WMTS Streaming classes.
 #' @title Interface
-#' @importFrom R6 R6Class 
+#' @importFrom R6 R6Class
 #' @import reticulate
 #' @export Interface
 Interface <- R6::R6Class(
@@ -23,6 +23,7 @@ Interface <- R6::R6Class(
     initialize = function(mgp_sdk=NULL, py_interface = NULL, env_name = "R-MGP-SDK") {
       Sys.unsetenv("HOME")
       Sys.setenv(HOME = getwd())
+      print("mgpStreamingSDK is no longer supported and has been replaced by the MGPSDK R package, please transition to the supported MGPSDK  package.")
       if (private$check_virtualenv(env_name)) {
         #do nothing the venv is already set up
         library(reticulate)
@@ -36,7 +37,7 @@ Interface <- R6::R6Class(
       self$mgp_sdk <<- reticulate::import("MGP_SDK")
       self$py_interface <<- self$mgp_sdk$interface$Interface()
       },
-    
+
     #' @description Perform a search for features within the specified bounding box and/or with a specified filter.
     #'
     #' @param bbox A string indicating the bounding box of the area of interest (miny,minx,maxy,maxx).
@@ -51,12 +52,13 @@ Interface <- R6::R6Class(
     #' If `csv` is TRUE, the function returns a CSV file. If neither is specified, the function returns a list of features.
     #' @export
     search = function(bbox=NULL, filter=NULL, shapefile=FALSE, csv=FALSE, ...) {
+      .Deprecated("streaming_search in MGPSDK R package", package = "mgpStreamingSDK")
       kwargs <- list(...)
       args <- c(list(bbox = bbox, filter = filter, shapefile = shapefile, csv = csv), kwargs)
       result <- do.call(self$py_interface$streaming$search, args)
       return(result)
     },
-    
+
     #' @description Download an image from a WMS or WMTS service
     #'
     #' @description This function allows you to download an image from a Web Map Service (WMS) or a
@@ -80,12 +82,13 @@ Interface <- R6::R6Class(
     #' the function returns the raw image data as a binary vector.
     #' @export
     download_image = function(bbox = NULL, srsname = "EPSG:4326", height = NULL, width = NULL, img_format = "jpeg", identifier = NULL,  zoom_level = NULL, download = TRUE, outputpath = NULL, display = FALSE) {
+      .Deprecated("streaming_download_image in MGPSDK R package", package = "mgpStreamingSDK")
       args <- c(list(bbox = bbox, srsname = srsname, height = as.integer(height), width = as.integer(width), img_format = img_format, identifier = identifier, zoom_level = zoom_level, download = download, outputpath = outputpath, display = display, legacyId = legacyId))
       result <- do.call(self$py_interface$streaming$download_image, args)
       #result <- self$py_interface$streaming$download_image(bbox = bbox, srsname = srsname, height = as.integer(height), width = as.integer(width), img_format = img_format, identifier = identifier, zoom_level = zoom_level, download = download, outputpath = outputpath, display = display)
       return(result)
       },
-    
+
     #'
     #' @description This function is a wrapper for a Python function that retrieves full resolution images.
     #' @description The function downloads an image with the specified feature ID and additional parameters.
@@ -104,6 +107,7 @@ Interface <- R6::R6Class(
 
     get_full_res_image = function(featureid, thread_number = 100, bbox = NULL, mosaic = FALSE,
                                    srsname = 'EPSG:4326', outputdirectory=getwd(),image_format='jpeg', filename="Maxar_Download") {
+      .Deprecated("streaming_get_full_res_image in MGPSDK R package", package = "mgpStreamingSDK")
       arguments <- c(list(featureid=featureid,thread_number=as.integer(thread_number),bbox=bbox,mosaic=mosaic,srsname=srsname,outputdirectory=outputdirectory,image_format=image_format,filename=filename))
       result <- do.call(self$py_interface$streaming$get_full_res_image,arguments)
       return(result)
